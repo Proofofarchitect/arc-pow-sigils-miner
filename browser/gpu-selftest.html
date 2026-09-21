@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proof of Architect — GPU miner self-test</title>
+</head>
+<body style="background:#101014;color:#e6e6ea;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;padding:24px;max-width:960px">
+<h1 style="font-size:18px">GPU (WebGPU) miner — self-test</h1>
+<p>
+Runs the exact test suite the <code>/mine</code> page runs implicitly: the JS
+keccak vectors, then a WebGPU&#8596;JS parity check on nonces with 2 / 5 / 15 /
+21 leading-zero bits. Mining refuses to start unless the parity check passes.
+</p>
+<p>
+Add <code>?sw=1</code> to allow software adapters (SwiftShader / llvmpipe) —
+used for headless verification only; the production page never does this.
+</p>
+<pre id="out" style="white-space:pre-wrap;border:1px solid #333;padding:12px;border-radius:8px">starting…</pre>
+<script>
+(function () {
+  var allowSoftware = new URLSearchParams(location.search).has("sw") || location.protocol === "file:";
+  var out = document.getElementById("out");
+  var lines = [];
+
+  function log(line) {
+    lines.push(line);
+    out.textContent = lines.join("\n");
+  }
+
+  if (!("gpu" in navigator)) {
+    log("navigator.gpu: NOT AVAILABLE (browser has no WebGPU)");
+  } else {
+    log("navigator.gpu: present" + (allowSoftware ? " (allowSoftware=1)" : ""));
+  }
+
+  // Relative path so the page also works over file:// (headless verification).
+  var worker = new Worker("miner-gpu-worker.js");
+
+  worker.onmessage = function (event) {
+    var msg = event.data || {};
+    if (msg.type === "selftest") {
+      log("[" + msg.result + "] " + msg.name + ": expected " + msg.expected + ", actual " + msg.actual);
+    } else if (msg.type === "selftest-summary") {
+      log("JS selftest summary: " + msg.result + " (" + msg.passed + "/" + msg.total + ")");
+    } else if (msg.type === "gpu-selftest-summary") {
+      log(
+        "WebGPU selftest summary: " + msg.result + " (" + msg.passed + "/" + msg.total + ")" +
+        (msg.adapter ? " adapter: " + msg.adapter : "") +
+        (msg.detail ? " — " + msg.detail : "")
+      );
+    } else {
+      log(JSON.stringify(msg));
+    }
+  };
+
+  worker.onerror = function (e) {
+    log("worker error: " + (e.message || "unknown"));
+  };
+
+  worker.postMessage({ type: "selftest", allowSoftware: allowSoftware });
+})();
+</script>
+</body>
+</html>

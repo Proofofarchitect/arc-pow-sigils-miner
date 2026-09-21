@@ -1,0 +1,22 @@
+# secrets / keys — never commit
+keys/
+*.key
+*.pem
+.env
+.env.*
+wallet*
+seed*
+mnemonic*
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# os / editors
+.DS_Store
+.idea/
+.vscode/
