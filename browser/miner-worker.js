@@ -403,7 +403,7 @@ function selfTest() {
     }
   ];
 
-  const chainId = 5042002;
+  const chainId = 5042;
   const contract = "0x1111111111111111111111111111111111111111";
   const miner = "0x2222222222222222222222222222222222222222";
 

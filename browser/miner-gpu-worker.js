@@ -686,7 +686,7 @@ async function gpuDispatchBatch(iters, threshold, mode, grid, count) {
  * ------------------------------------------------------------------ */
 
 const SELF_TEST = {
-  chainId: 5042002,
+  chainId: 5042,
   contract: "0x" + "11".repeat(20),
   miner: "0x" + "22".repeat(20),
 };

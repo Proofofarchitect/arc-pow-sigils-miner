@@ -27,7 +27,7 @@ Install on a rented GPU box:
     pip install --break-system-packages cupy-cuda12x eth-account eth-hash[pycryptodome]
 Run (dry, no broadcast):
     PRIVATE_KEY=0x... python3 gpu_mine.py --gpus 0 --dry-run
-Run (live testnet):
+Run (live mainnet):
     PRIVATE_KEY=0x... python3 gpu_mine.py --gpus 0,1,2,3
 """
 import argparse
@@ -46,11 +46,11 @@ from eth_hash.auto import keccak
 from eth_account import Account
 
 # ------------------------------------------------------------------ config
-RPC_DEFAULT = "https://rpc.testnet.arc.io"
-# PowMintNFTv3.4 "Proof of Architect" testnet instance (mainnet 5042 address TBD).
+RPC_DEFAULT = "https://rpc.mainnet.arc.io"
+# PowMintNFTv3.4 "Proof of Architect" mainnet instance (testnet stack paused).
 # Override per-run with --contract (and --chain-id/--rpc for mainnet).
-CONTRACT = "0x8f5795343C10b316296f6767a10e87CC40E62491"
-CHAIN_ID = 5042002
+CONTRACT = "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4"
+CHAIN_ID = 5042
 MIN_FEE_WEI = 20 * 10**9            # Arc mempool floor: below this the tx is silently dropped
 DEFAULT_PRIORITY_WEI = 10**9
 DEFAULT_GAS_LIMIT = 400000

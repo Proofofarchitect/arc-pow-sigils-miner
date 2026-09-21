@@ -41,10 +41,9 @@ valid ⟺ uint256(work) < targetFor(miner);                              // diff
 
 | Network | chainId | contract | RPC |
 |---|---|---|---|
-| Arc **testnet** | `5042002` | `0x8f5795343C10b316296f6767a10e87CC40E62491` | `https://rpc.testnet.arc.io` |
-| Arc **mainnet** | `5042` | _TBD_ | `https://rpc.mainnet.arc.io` |
+| Arc **mainnet** (live) | `5042` | `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` | `https://rpc.mainnet.arc.io` |
 
-Override at runtime with `--contract` / `--chain-id` / `--rpc`.
+Override at runtime with `--contract` / `--chain-id` / `--rpc` (the testnet deployment is paused).
 
 ---
 
